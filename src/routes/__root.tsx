@@ -77,12 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
-      { property: "og:type", content: "website" },
+      { title: "DevTest Hub — Developer və testçi əməkdaşlığı" },
+      {
+        name: "description",
+        content:
+          "Layihələr, səhv izləmə, mesajlaşma və CV alətləri ilə developer və testçi əməkdaşlıq platforması.",
+      },
+      { name: "author", content: "DevTest Hub" },
+      { property: "og:title", content: "DevTest Hub" },
+      { property: "og:description", content: "Developer və testçilər üçün əməkdaşlıq platforması." },
+
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
     ],

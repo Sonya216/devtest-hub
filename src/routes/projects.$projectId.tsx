@@ -81,7 +81,7 @@ function ProjectPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
-  const [members, setMembers] = useState<(Member & { profile?: Profile })[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [bugs, setBugs] = useState<BugRow[]>([]);
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);

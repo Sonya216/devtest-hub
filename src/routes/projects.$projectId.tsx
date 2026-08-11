@@ -59,7 +59,7 @@ type Project = {
   created_at: string;
 };
 
-type Member = { id: string; user_id: string; role: string };
+type Member = { id: string; user_id: string; role: string; profile?: Profile | undefined };
 type Profile = { id: string; full_name: string; role: string; headline: string | null };
 type BugRow = {
   id: string;

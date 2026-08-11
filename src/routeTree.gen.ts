@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CvRouteImport } from './routes/cv'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as BugsIndexRouteImport } from './routes/bugs.index'
 import { Route as BugsBugIdRouteImport } from './routes/bugs.$bugId'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
@@ -30,6 +33,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CvRoute = CvRouteImport.update({
+  id: '/cv',
+  path: '/cv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -38,6 +46,16 @@ const DashboardRoute = DashboardRouteImport.update({
 const MessagesRoute = MessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BugsIndexRoute = BugsIndexRouteImport.update({
@@ -74,8 +92,11 @@ const ProjectsProjectIdRoute = ProjectsProjectIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cv': typeof CvRoute
   '/dashboard': typeof DashboardRoute
   '/messages': typeof MessagesRoute
+  '/notifications': typeof NotificationsRoute
+  '/settings': typeof SettingsRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
   '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
@@ -86,8 +107,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cv': typeof CvRoute
   '/dashboard': typeof DashboardRoute
   '/messages': typeof MessagesRoute
+  '/notifications': typeof NotificationsRoute
+  '/settings': typeof SettingsRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
   '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
@@ -99,8 +123,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/cv': typeof CvRoute
   '/dashboard': typeof DashboardRoute
   '/messages': typeof MessagesRoute
+  '/notifications': typeof NotificationsRoute
+  '/settings': typeof SettingsRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
   '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
@@ -113,8 +140,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/cv'
     | '/dashboard'
     | '/messages'
+    | '/notifications'
+    | '/settings'
     | '/bugs/$bugId'
     | '/people/$userId'
     | '/projects/$projectId'
@@ -125,8 +155,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/cv'
     | '/dashboard'
     | '/messages'
+    | '/notifications'
+    | '/settings'
     | '/bugs/$bugId'
     | '/people/$userId'
     | '/projects/$projectId'
@@ -137,8 +170,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/cv'
     | '/dashboard'
     | '/messages'
+    | '/notifications'
+    | '/settings'
     | '/bugs/$bugId'
     | '/people/$userId'
     | '/projects/$projectId'
@@ -150,8 +186,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  CvRoute: typeof CvRoute
   DashboardRoute: typeof DashboardRoute
   MessagesRoute: typeof MessagesRoute
+  NotificationsRoute: typeof NotificationsRoute
+  SettingsRoute: typeof SettingsRoute
   BugsBugIdRoute: typeof BugsBugIdRoute
   PeopleUserIdRoute: typeof PeopleUserIdRoute
   ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
@@ -176,6 +215,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cv': {
+      id: '/cv'
+      path: '/cv'
+      fullPath: '/cv'
+      preLoaderRoute: typeof CvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -188,6 +234,20 @@ declare module '@tanstack/react-router' {
       path: '/messages'
       fullPath: '/messages'
       preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bugs/': {
@@ -238,8 +298,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  CvRoute: CvRoute,
   DashboardRoute: DashboardRoute,
   MessagesRoute: MessagesRoute,
+  NotificationsRoute: NotificationsRoute,
+  SettingsRoute: SettingsRoute,
   BugsBugIdRoute: BugsBugIdRoute,
   PeopleUserIdRoute: PeopleUserIdRoute,
   ProjectsProjectIdRoute: ProjectsProjectIdRoute,

@@ -35,7 +35,7 @@ type Message = {
   sender_id: string;
   recipient_id: string;
   body: string;
-  read_at: string | null;
+  read: boolean;
   created_at: string;
 };
 type Person = { id: string; full_name: string; role: string };
@@ -87,12 +87,12 @@ function MessagesPage() {
   useEffect(() => {
     if (!user || !active) return;
     const unread = messages.filter(
-      (m) => m.sender_id === active && m.recipient_id === user.id && !m.read_at,
+      (m) => m.sender_id === active && m.recipient_id === user.id && !m.read,
     );
     if (unread.length) {
       void supabase
         .from("messages")
-        .update({ read_at: new Date().toISOString() })
+        .update({ read: true })
         .in(
           "id",
           unread.map((m) => m.id),
@@ -133,7 +133,7 @@ function MessagesPage() {
       <aside className="surface-card max-h-[70vh] overflow-y-auto p-2">
         {sorted.map((p) => {
           const unread = messages.filter(
-            (m) => m.sender_id === p.id && m.recipient_id === user?.id && !m.read_at,
+            (m) => m.sender_id === p.id && m.recipient_id === user?.id && !m.read,
           ).length;
           return (
             <button

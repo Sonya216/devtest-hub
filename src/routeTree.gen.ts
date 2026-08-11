@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as BugsIndexRouteImport } from './routes/bugs.index'
 import { Route as BugsBugIdRouteImport } from './routes/bugs.$bugId'
+import { Route as PeopleIndexRouteImport } from './routes/people.index'
+import { Route as PeopleUserIdRouteImport } from './routes/people.$userId'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsProjectIdRouteImport } from './routes/projects.$projectId'
 
@@ -32,6 +35,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BugsIndexRoute = BugsIndexRouteImport.update({
   id: '/bugs/',
   path: '/bugs/',
@@ -40,6 +48,16 @@ const BugsIndexRoute = BugsIndexRouteImport.update({
 const BugsBugIdRoute = BugsBugIdRouteImport.update({
   id: '/bugs/$bugId',
   path: '/bugs/$bugId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeopleIndexRoute = PeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeopleUserIdRoute = PeopleUserIdRouteImport.update({
+  id: '/people/$userId',
+  path: '/people/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
@@ -57,18 +75,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/messages': typeof MessagesRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
+  '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/bugs/': typeof BugsIndexRoute
+  '/people/': typeof PeopleIndexRoute
   '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/messages': typeof MessagesRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
+  '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/bugs': typeof BugsIndexRoute
+  '/people': typeof PeopleIndexRoute
   '/projects': typeof ProjectsIndexRoute
 }
 export interface FileRoutesById {
@@ -76,9 +100,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/messages': typeof MessagesRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
+  '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/bugs/': typeof BugsIndexRoute
+  '/people/': typeof PeopleIndexRoute
   '/projects/': typeof ProjectsIndexRoute
 }
 export interface FileRouteTypes {
@@ -87,27 +114,36 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/messages'
     | '/bugs/$bugId'
+    | '/people/$userId'
     | '/projects/$projectId'
     | '/bugs/'
+    | '/people/'
     | '/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/messages'
     | '/bugs/$bugId'
+    | '/people/$userId'
     | '/projects/$projectId'
     | '/bugs'
+    | '/people'
     | '/projects'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/messages'
     | '/bugs/$bugId'
+    | '/people/$userId'
     | '/projects/$projectId'
     | '/bugs/'
+    | '/people/'
     | '/projects/'
   fileRoutesById: FileRoutesById
 }
@@ -115,9 +151,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
+  MessagesRoute: typeof MessagesRoute
   BugsBugIdRoute: typeof BugsBugIdRoute
+  PeopleUserIdRoute: typeof PeopleUserIdRoute
   ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
   BugsIndexRoute: typeof BugsIndexRoute
+  PeopleIndexRoute: typeof PeopleIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
@@ -144,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bugs/': {
       id: '/bugs/'
       path: '/bugs'
@@ -156,6 +202,20 @@ declare module '@tanstack/react-router' {
       path: '/bugs/$bugId'
       fullPath: '/bugs/$bugId'
       preLoaderRoute: typeof BugsBugIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/people/': {
+      id: '/people/'
+      path: '/people'
+      fullPath: '/people/'
+      preLoaderRoute: typeof PeopleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/people/$userId': {
+      id: '/people/$userId'
+      path: '/people/$userId'
+      fullPath: '/people/$userId'
+      preLoaderRoute: typeof PeopleUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/': {
@@ -179,9 +239,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
+  MessagesRoute: MessagesRoute,
   BugsBugIdRoute: BugsBugIdRoute,
+  PeopleUserIdRoute: PeopleUserIdRoute,
   ProjectsProjectIdRoute: ProjectsProjectIdRoute,
   BugsIndexRoute: BugsIndexRoute,
+  PeopleIndexRoute: PeopleIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport

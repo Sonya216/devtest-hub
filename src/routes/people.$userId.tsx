@@ -36,7 +36,7 @@ type Profile = {
   bio: string | null;
   skills: string[] | null;
   location: string | null;
-  website: string | null;
+  website_url: string | null;
   github_url: string | null;
   avatar_url: string | null;
   created_at: string;
@@ -99,8 +99,8 @@ function ProfilePage() {
                 <Button variant="outline">GitHub</Button>
               </a>
             ) : null}
-            {profile.website ? (
-              <a href={profile.website} target="_blank" rel="noreferrer">
+            {profile.website_url ? (
+              <a href={profile.website_url} target="_blank" rel="noreferrer">
                 <Button variant="outline">Veb sayt</Button>
               </a>
             ) : null}

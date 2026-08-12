@@ -38,9 +38,12 @@ function createSupabaseClient() {
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
     ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    const maskedKey = SUPABASE_PUBLISHABLE_KEY
+      ? `${String(SUPABASE_PUBLISHABLE_KEY).slice(0, 12)}...` // safe, publishable keys are okay to partially show
+      : 'MISSING';
+    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}.`;
+    console.error(`[Supabase] ${message} Detected values — SUPABASE_URL=${SUPABASE_URL ? SUPABASE_URL : 'MISSING'}, SUPABASE_PUBLISHABLE_KEY=${maskedKey}. Ensure you set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY (the publishable key starts with sb_publishable_) in your Vercel environment variables and redeploy.`);
+    throw new Error(`${message} See console for details.`);
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {

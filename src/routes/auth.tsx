@@ -45,6 +45,7 @@ function AuthPage() {
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState("developer");
   const [busy, setBusy] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && user) void navigate({ to: "/dashboard" });
@@ -60,6 +61,7 @@ function AuthPage() {
     const { error } = await supabase.auth.signInWithPassword(parsed.data);
     setBusy(false);
     if (error) {
+      setLastError(error.message);
       toast.error(error.message);
       return;
     }
@@ -86,6 +88,7 @@ function AuthPage() {
     });
     setBusy(false);
     if (error) {
+      setLastError(error.message);
       toast.error(error.message);
       return;
     }
@@ -97,6 +100,7 @@ function AuthPage() {
       redirect_uri: window.location.origin,
     });
     if (result.error) {
+      setLastError(result.error.message ?? 'Google auth error');
       toast.error("Google ilə giriş alınmadı");
       return;
     }
@@ -145,6 +149,7 @@ function AuthPage() {
               <Button className="w-full" disabled={busy} onClick={signIn}>
                 Daxil ol
               </Button>
+              {lastError ? <div className="mt-3 text-sm text-destructive">{lastError}</div> : null}
             </TabsContent>
 
             <TabsContent value="signup" className="mt-6 space-y-4">
@@ -195,6 +200,7 @@ function AuthPage() {
               <Button className="w-full" disabled={busy} onClick={signUp}>
                 Hesab yarat
               </Button>
+              {lastError ? <div className="mt-3 text-sm text-destructive">{lastError}</div> : null}
             </TabsContent>
           </Tabs>
 

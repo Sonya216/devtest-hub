@@ -33,6 +33,17 @@ function createSupabaseClient() {
   const SUPABASE_URL = import.meta.env['VITE_SUPABASE_URL'] || process.env['SUPABASE_URL'];
   const SUPABASE_PUBLISHABLE_KEY = import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || process.env['SUPABASE_PUBLISHABLE_KEY'];
 
+  // Log masked detected values for debugging in the deployed client (safe to show partial key)
+  try {
+    const masked = SUPABASE_PUBLISHABLE_KEY
+      ? `${String(SUPABASE_PUBLISHABLE_KEY).slice(0, 16)}...`
+      : 'MISSING';
+    // Use console.info so it appears in browser console and Vercel function logs for SSR
+    console.info(`[Supabase] Detected SUPABASE_URL=${SUPABASE_URL ? SUPABASE_URL : 'MISSING'}, SUPABASE_PUBLISHABLE_KEY=${masked}`);
+  } catch (e) {
+    // ignore logging errors
+  }
+
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     const missing = [
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),

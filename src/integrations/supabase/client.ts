@@ -30,8 +30,14 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 function createSupabaseClient() {
   // Use import.meta.env for client-side (Vite build-time replacement)
   // Fall back to process.env for SSR (server-side rendering)
-  const SUPABASE_URL = import.meta.env['VITE_SUPABASE_URL'] || process.env['SUPABASE_URL'];
-  const SUPABASE_PUBLISHABLE_KEY = import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || process.env['SUPABASE_PUBLISHABLE_KEY'];
+  // Prefer build-time injected Vite envs, then fallback to a runtime-injected global `window.__ENV`,
+  // then to process.env for SSR.
+  const runtimeEnv: { VITE_SUPABASE_URL?: string; VITE_SUPABASE_PUBLISHABLE_KEY?: string } =
+    (typeof globalThis !== 'undefined' && (globalThis as any).__ENV) || {};
+
+  const SUPABASE_URL = import.meta.env['VITE_SUPABASE_URL'] || runtimeEnv.VITE_SUPABASE_URL || process.env['SUPABASE_URL'];
+  const SUPABASE_PUBLISHABLE_KEY =
+    import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || runtimeEnv.VITE_SUPABASE_PUBLISHABLE_KEY || process.env['SUPABASE_PUBLISHABLE_KEY'];
 
   // Log masked detected values for debugging in the deployed client (safe to show partial key)
   try {

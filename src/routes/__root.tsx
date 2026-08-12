@@ -122,7 +122,13 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
-        <Scripts />
+            {/* Inject server-side env into window for client runtime when VITE_* was not embedded at build-time */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.__ENV = { VITE_SUPABASE_URL: ${JSON.stringify(process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || null)}, VITE_SUPABASE_PUBLISHABLE_KEY: ${JSON.stringify(process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || null)} };`,
+              }}
+            />
+            <Scripts />
       </body>
     </html>
   );

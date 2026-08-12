@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SEVERITY, STATUS, formatDate } from "@/lib/platform";
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/dashboard/backup")({
   head: () => ({
     meta: [
       { title: "İdarə paneli — DevTest Hub" },
@@ -42,13 +42,9 @@ function Dashboard() {
   const { user } = useAuth();
   const [stats, setStats] = useState({ projects: 0, bugs: 0, assigned: 0, unread: 0 });
   const [recent, setRecent] = useState<BugRow[]>([]);
-  const [recentPage, setRecentPage] = useState(0);
-  const pageSize = 6;
-  const [loadingRecent, setLoadingRecent] = useState(false);
 
   useEffect(() => {
     if (!user) return;
-    let cancelled = false;
     const load = async () => {
       const [projects, bugs, assigned, unread, latest] = await Promise.all([
         supabase.from("projects").select("id", { count: "exact", head: true }),
@@ -75,51 +71,9 @@ function Dashboard() {
         unread: unread.count ?? 0,
       });
       setRecent((latest.data as BugRow[]) ?? []);
-      setRecentPage(0);
     };
     void load();
-    // subscribe to relevant tables so dashboard updates in realtime
-    const channel = supabase
-      .channel("dashboard-stats")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "projects" },
-        () => void load(),
-      )
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "bugs" },
-        () => void load(),
-      )
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "messages" },
-        () => void load(),
-      )
-      .subscribe();
-    return () => {
-      cancelled = true;
-      void supabase.removeChannel(channel);
-    };
   }, [user]);
-
-  const loadRecentPage = async (page: number, append = false) => {
-    setLoadingRecent(true);
-    try {
-      const from = page * pageSize;
-      const to = (page + 1) * pageSize - 1;
-      const { data } = await supabase
-        .from("bugs")
-        .select("id,title,severity,status,created_at,project_id")
-        .order("created_at", { ascending: false })
-        .range(from, to);
-      const rows = (data as BugRow[]) ?? [];
-      setRecent((prev) => (append ? [...prev, ...rows] : rows));
-      setRecentPage(page);
-    } finally {
-      setLoadingRecent(false);
-    }
-  };
 
   const cards = [
     { label: "Layihələr", value: stats.projects, icon: FolderKanban, to: "/projects" as const },
@@ -183,17 +137,6 @@ function Dashboard() {
               <span className="text-xs text-muted-foreground">{formatDate(bug.created_at)}</span>
             </Link>
           ))}
-          {recent.length >= pageSize && (
-            <div className="py-4 text-center">
-              <Button
-                variant="outline"
-                onClick={() => void loadRecentPage(recentPage + 1, true)}
-                disabled={loadingRecent}
-              >
-                {loadingRecent ? "Yüklənir..." : "Daha çox yüklə"}
-              </Button>
-            </div>
-          )}
         </div>
       </section>
     </div>

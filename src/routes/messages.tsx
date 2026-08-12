@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouterState } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -47,6 +47,7 @@ function MessagesPage() {
   const [active, setActive] = useState<string | null>(null);
   const [text, setText] = useState("");
   const bottom = useRef<HTMLDivElement>(null);
+  const search = useRouterState({ select: (s) => s.location.search });
 
   const loadMessages = useCallback(async () => {
     if (!user) return;
@@ -65,7 +66,14 @@ function MessagesPage() {
     };
     void load();
     void loadMessages();
-  }, [user, loadMessages]);
+    try {
+      const params = new URLSearchParams(search || "");
+      const target = params.get("target");
+      if (target) setActive(target);
+    } catch {
+      // ignore
+    }
+  }, [user, loadMessages, search]);
 
   useEffect(() => {
     if (!user) return;
@@ -116,7 +124,9 @@ function MessagesPage() {
   };
 
   const thread = messages.filter(
-    (m) => m.sender_id === active || m.recipient_id === active,
+    (m) =>
+      (m.sender_id === active && m.recipient_id === user?.id) ||
+      (m.recipient_id === active && m.sender_id === user?.id),
   );
 
   const partnersWithChat = new Set(

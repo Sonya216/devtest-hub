@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { RequireAuth } from "@/components/RequireAuth";
@@ -47,6 +47,7 @@ function PeoplePage() {
   const [people, setPeople] = useState<Person[]>([]);
   const [role, setRole] = useState("all");
   const [query, setQuery] = useState("");
+  const search = useRouterState({ select: (s) => s.location.search });
 
   useEffect(() => {
     const load = async () => {
@@ -58,7 +59,15 @@ function PeoplePage() {
       setPeople((data as Person[]) ?? []);
     };
     void load();
-  }, []);
+    // apply `?query=...` from URL if present
+    try {
+      const params = new URLSearchParams(search || "");
+      const q = params.get("query") ?? "";
+      if (q) setQuery(q);
+    } catch {
+      // ignore
+    }
+  }, [search]);
 
   const filtered = people.filter(
     (p) =>

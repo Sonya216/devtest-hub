@@ -24,3 +24,7 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Deployment notes
+
+See `DEPLOY.md` for step-by-step deployment and domain setup instructions (Vercel recommended). I added a `Dockerfile` and a GitHub Actions template at `.github/workflows/vercel-deploy.yml` to help automate deployment.

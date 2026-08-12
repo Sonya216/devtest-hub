@@ -1,0 +1,28 @@
+DevTest Hub — lightweight backup note
+
+Timestamp: 2026-08-12
+
+This is a lightweight snapshot note created by the assistant. It records key files inspected and recommends making a full backup (git branch or zip) locally.
+
+Key files inspected:
+- router.tsx
+- routeTree.gen.ts
+- server.ts
+- start.ts
+- src/lib/auth.tsx
+- src/components/AppShell.tsx
+- src/components/RequireAuth.tsx
+- src/integrations/supabase/client.ts
+- src/integrations/supabase/client.server.ts
+- src/routes/* (dashboard, projects, bugs, messages, people, cv, auth, settings)
+- src/lib/platform.ts
+- src/components/SignedMedia.tsx
+- src/integrations/lovable/index.ts
+- src/PROJECT_TODO.md
+
+Recommended full backup steps (run locally):
+1. Commit local changes: `git add . && git commit -m "backup before work"`
+2. Create a backup branch: `git checkout -b backup-before-feature-<date>`
+3. Or create a zip: `git archive -o ../devtesthub-backup-<date>.zip HEAD`
+
+Note: This file is informational only and does not replace a real backup.

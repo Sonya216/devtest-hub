@@ -5,22 +5,26 @@ import {
   Bug,
   FileText,
   FolderKanban,
+  Megaphone,
   LogOut,
   MessageSquare,
   Users,
   Menu,
   LayoutDashboard,
+  Search,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 
 const NAV = [
   { to: "/dashboard", label: "İdarə paneli", icon: LayoutDashboard },
   { to: "/projects", label: "Layihələr", icon: FolderKanban },
-  { to: "/bugs", label: "Səhvlər", icon: Bug },
+    { to: "/bugs", label: "Səhvlər", icon: Bug },
+    { to: "/announcements", label: "Elanlar", icon: Megaphone },
   { to: "/messages", label: "Mesajlar", icon: MessageSquare },
   { to: "/people", label: "İcma", icon: Users },
   { to: "/cv", label: "CV", icon: FileText },
@@ -57,6 +61,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const [unread, setUnread] = useState(0);
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (!user) return;
@@ -111,6 +116,30 @@ export function AppShell({ children }: { children: ReactNode }) {
           <nav className="ml-6 hidden items-center gap-1 md:flex">
             <NavLinks />
           </nav>
+
+          <div className="ml-6 hidden items-center gap-2 md:flex">
+            <Input
+              className="w-80"
+              placeholder="Tester, developer, elan, layihə və ya bacarıq axtar..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && query.trim()) {
+                  void navigate({ to: `/search?query=${encodeURIComponent(query.trim())}` });
+                }
+              }}
+            />
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Axtar"
+              onClick={() => {
+                if (query.trim()) void navigate({ to: `/search?query=${encodeURIComponent(query.trim())}` });
+              }}
+            >
+              <Search className="size-4" />
+            </Button>
+          </div>
 
           <div className="ml-auto flex items-center gap-1">
             <Link to="/notifications" className="relative">

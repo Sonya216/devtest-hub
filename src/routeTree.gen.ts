@@ -15,9 +15,14 @@ import { Route as CvRouteImport } from './routes/cv'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as AnnouncementsIndexRouteImport } from './routes/announcements.index'
+import { Route as AnnouncementsAnnouncementIdRouteImport } from './routes/announcements.$announcementId'
+import { Route as AnnouncementsNewRouteImport } from './routes/announcements.new'
 import { Route as BugsIndexRouteImport } from './routes/bugs.index'
 import { Route as BugsBugIdRouteImport } from './routes/bugs.$bugId'
+import { Route as DashboardBackupRouteImport } from './routes/dashboard.backup'
 import { Route as PeopleIndexRouteImport } from './routes/people.index'
 import { Route as PeopleUserIdRouteImport } from './routes/people.$userId'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
@@ -53,9 +58,30 @@ const NotificationsRoute = NotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnnouncementsIndexRoute = AnnouncementsIndexRouteImport.update({
+  id: '/announcements/',
+  path: '/announcements/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnnouncementsAnnouncementIdRoute =
+  AnnouncementsAnnouncementIdRouteImport.update({
+    id: '/announcements/$announcementId',
+    path: '/announcements/$announcementId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AnnouncementsNewRoute = AnnouncementsNewRouteImport.update({
+  id: '/announcements/new',
+  path: '/announcements/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BugsIndexRoute = BugsIndexRouteImport.update({
@@ -67,6 +93,11 @@ const BugsBugIdRoute = BugsBugIdRouteImport.update({
   id: '/bugs/$bugId',
   path: '/bugs/$bugId',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardBackupRoute = DashboardBackupRouteImport.update({
+  id: '/backup',
+  path: '/backup',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const PeopleIndexRoute = PeopleIndexRouteImport.update({
   id: '/people/',
@@ -93,13 +124,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cv': typeof CvRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/messages': typeof MessagesRoute
   '/notifications': typeof NotificationsRoute
+  '/search': typeof SearchRoute
   '/settings': typeof SettingsRoute
+  '/announcements/$announcementId': typeof AnnouncementsAnnouncementIdRoute
+  '/announcements/new': typeof AnnouncementsNewRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
+  '/dashboard/backup': typeof DashboardBackupRoute
   '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
+  '/announcements/': typeof AnnouncementsIndexRoute
   '/bugs/': typeof BugsIndexRoute
   '/people/': typeof PeopleIndexRoute
   '/projects/': typeof ProjectsIndexRoute
@@ -108,13 +144,18 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cv': typeof CvRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/messages': typeof MessagesRoute
   '/notifications': typeof NotificationsRoute
+  '/search': typeof SearchRoute
   '/settings': typeof SettingsRoute
+  '/announcements/$announcementId': typeof AnnouncementsAnnouncementIdRoute
+  '/announcements/new': typeof AnnouncementsNewRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
+  '/dashboard/backup': typeof DashboardBackupRoute
   '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
+  '/announcements': typeof AnnouncementsIndexRoute
   '/bugs': typeof BugsIndexRoute
   '/people': typeof PeopleIndexRoute
   '/projects': typeof ProjectsIndexRoute
@@ -124,13 +165,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cv': typeof CvRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/messages': typeof MessagesRoute
   '/notifications': typeof NotificationsRoute
+  '/search': typeof SearchRoute
   '/settings': typeof SettingsRoute
+  '/announcements/$announcementId': typeof AnnouncementsAnnouncementIdRoute
+  '/announcements/new': typeof AnnouncementsNewRoute
   '/bugs/$bugId': typeof BugsBugIdRoute
+  '/dashboard/backup': typeof DashboardBackupRoute
   '/people/$userId': typeof PeopleUserIdRoute
   '/projects/$projectId': typeof ProjectsProjectIdRoute
+  '/announcements/': typeof AnnouncementsIndexRoute
   '/bugs/': typeof BugsIndexRoute
   '/people/': typeof PeopleIndexRoute
   '/projects/': typeof ProjectsIndexRoute
@@ -144,10 +190,15 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/messages'
     | '/notifications'
+    | '/search'
     | '/settings'
+    | '/announcements/$announcementId'
+    | '/announcements/new'
     | '/bugs/$bugId'
+    | '/dashboard/backup'
     | '/people/$userId'
     | '/projects/$projectId'
+    | '/announcements/'
     | '/bugs/'
     | '/people/'
     | '/projects/'
@@ -159,10 +210,15 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/messages'
     | '/notifications'
+    | '/search'
     | '/settings'
+    | '/announcements/$announcementId'
+    | '/announcements/new'
     | '/bugs/$bugId'
+    | '/dashboard/backup'
     | '/people/$userId'
     | '/projects/$projectId'
+    | '/announcements'
     | '/bugs'
     | '/people'
     | '/projects'
@@ -174,10 +230,15 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/messages'
     | '/notifications'
+    | '/search'
     | '/settings'
+    | '/announcements/$announcementId'
+    | '/announcements/new'
     | '/bugs/$bugId'
+    | '/dashboard/backup'
     | '/people/$userId'
     | '/projects/$projectId'
+    | '/announcements/'
     | '/bugs/'
     | '/people/'
     | '/projects/'
@@ -187,13 +248,17 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   CvRoute: typeof CvRoute
-  DashboardRoute: typeof DashboardRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   MessagesRoute: typeof MessagesRoute
   NotificationsRoute: typeof NotificationsRoute
+  SearchRoute: typeof SearchRoute
   SettingsRoute: typeof SettingsRoute
+  AnnouncementsAnnouncementIdRoute: typeof AnnouncementsAnnouncementIdRoute
+  AnnouncementsNewRoute: typeof AnnouncementsNewRoute
   BugsBugIdRoute: typeof BugsBugIdRoute
   PeopleUserIdRoute: typeof PeopleUserIdRoute
   ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
+  AnnouncementsIndexRoute: typeof AnnouncementsIndexRoute
   BugsIndexRoute: typeof BugsIndexRoute
   PeopleIndexRoute: typeof PeopleIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
@@ -243,11 +308,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/announcements/': {
+      id: '/announcements/'
+      path: '/announcements'
+      fullPath: '/announcements/'
+      preLoaderRoute: typeof AnnouncementsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/announcements/$announcementId': {
+      id: '/announcements/$announcementId'
+      path: '/announcements/$announcementId'
+      fullPath: '/announcements/$announcementId'
+      preLoaderRoute: typeof AnnouncementsAnnouncementIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/announcements/new': {
+      id: '/announcements/new'
+      path: '/announcements/new'
+      fullPath: '/announcements/new'
+      preLoaderRoute: typeof AnnouncementsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bugs/': {
@@ -263,6 +356,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/bugs/$bugId'
       preLoaderRoute: typeof BugsBugIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/backup': {
+      id: '/dashboard/backup'
+      path: '/backup'
+      fullPath: '/dashboard/backup'
+      preLoaderRoute: typeof DashboardBackupRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/people/': {
       id: '/people/'
@@ -295,17 +395,33 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardBackupRoute: typeof DashboardBackupRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardBackupRoute: DashboardBackupRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   CvRoute: CvRoute,
-  DashboardRoute: DashboardRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   MessagesRoute: MessagesRoute,
   NotificationsRoute: NotificationsRoute,
+  SearchRoute: SearchRoute,
   SettingsRoute: SettingsRoute,
+  AnnouncementsAnnouncementIdRoute: AnnouncementsAnnouncementIdRoute,
+  AnnouncementsNewRoute: AnnouncementsNewRoute,
   BugsBugIdRoute: BugsBugIdRoute,
   PeopleUserIdRoute: PeopleUserIdRoute,
   ProjectsProjectIdRoute: ProjectsProjectIdRoute,
+  AnnouncementsIndexRoute: AnnouncementsIndexRoute,
   BugsIndexRoute: BugsIndexRoute,
   PeopleIndexRoute: PeopleIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,

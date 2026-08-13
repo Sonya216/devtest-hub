@@ -130,6 +130,16 @@ function RootShell({ children }: { children: ReactNode }) {
                 }),
               )}
             />
+            {/* Also add an inline script in head to guarantee window.__ENV appears in View Source */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.__ENV = ${JSON.stringify({
+                  VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || null,
+                  VITE_SUPABASE_PUBLISHABLE_KEY:
+                    process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || null,
+                })};`,
+              }}
+            />
       </head>
       <body>
         {children}

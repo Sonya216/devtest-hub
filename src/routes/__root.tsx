@@ -118,7 +118,18 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <HeadContent />
+            <HeadContent />
+            {/* Expose runtime env in a meta tag so it appears in raw HTML (View Source) */}
+            <meta
+              name="runtime-env"
+              content={encodeURIComponent(
+                JSON.stringify({
+                  VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || null,
+                  VITE_SUPABASE_PUBLISHABLE_KEY:
+                    process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || null,
+                }),
+              )}
+            />
       </head>
       <body>
         {children}

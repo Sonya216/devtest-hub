@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CvRouteImport } from './routes/cv'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DebugRouteImport } from './routes/debug'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as SearchRouteImport } from './routes/search'
@@ -46,6 +47,11 @@ const CvRoute = CvRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DebugRoute = DebugRouteImport.update({
+  id: '/debug',
+  path: '/debug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MessagesRoute = MessagesRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/cv': typeof CvRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/debug': typeof DebugRoute
   '/messages': typeof MessagesRoute
   '/notifications': typeof NotificationsRoute
   '/search': typeof SearchRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/cv': typeof CvRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/debug': typeof DebugRoute
   '/messages': typeof MessagesRoute
   '/notifications': typeof NotificationsRoute
   '/search': typeof SearchRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/cv': typeof CvRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/debug': typeof DebugRoute
   '/messages': typeof MessagesRoute
   '/notifications': typeof NotificationsRoute
   '/search': typeof SearchRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cv'
     | '/dashboard'
+    | '/debug'
     | '/messages'
     | '/notifications'
     | '/search'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cv'
     | '/dashboard'
+    | '/debug'
     | '/messages'
     | '/notifications'
     | '/search'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/cv'
     | '/dashboard'
+    | '/debug'
     | '/messages'
     | '/notifications'
     | '/search'
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CvRoute: typeof CvRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  DebugRoute: typeof DebugRoute
   MessagesRoute: typeof MessagesRoute
   NotificationsRoute: typeof NotificationsRoute
   SearchRoute: typeof SearchRoute
@@ -292,6 +305,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/debug': {
+      id: '/debug'
+      path: '/debug'
+      fullPath: '/debug'
+      preLoaderRoute: typeof DebugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/messages': {
@@ -412,6 +432,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CvRoute: CvRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  DebugRoute: DebugRoute,
   MessagesRoute: MessagesRoute,
   NotificationsRoute: NotificationsRoute,
   SearchRoute: SearchRoute,
